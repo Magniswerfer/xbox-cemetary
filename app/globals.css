@@ -26,12 +26,16 @@ body {
 }
 
 /* The root background is what iOS/Safari paints into the overscroll (rubber-
-   band) area above and below the page. A vertical dark→green gradient matches
-   the page's top and bottom edges, with scanlines layered on for the same CRT
-   texture, so those edges look intentional rather than a flat black band. */
+   band) area above and below the page. iOS only honours the background-COLOR
+   there (background images are clipped to the page), so the color is the
+   reliable part — a dark green instead of near-black, so the edges read as
+   part of the memorial rather than a flat black band.
+   background-attachment: fixed is a progressive enhancement: where a browser
+   honours it (most desktops), the scanlines + gradient extend into the
+   overscroll too; where it doesn't (iOS), the dark-green color is the result. */
 html {
   color-scheme: dark;
-  background-color: var(--bg);
+  background-color: #0e2110;
   background-image:
     repeating-linear-gradient(
       0deg,
@@ -40,7 +44,9 @@ html {
       rgba(0, 0, 0, 0.22) 3px,
       transparent 4px
     ),
-    linear-gradient(180deg, #040704 0%, #0a160a 55%, #1a3a10 100%);
+    linear-gradient(180deg, #061106 0%, #0a160a 50%, #0e2110 100%);
+  background-attachment: fixed;
+  background-size: auto, cover;
 }
 
 body {

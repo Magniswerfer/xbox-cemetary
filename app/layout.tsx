@@ -25,7 +25,7 @@ export const metadata: Metadata = {
 // Tints the iOS/Safari browser chrome (top status bar, bottom toolbar) to
 // match the memorial's dark green rather than a default light bar.
 export const viewport: Viewport = {
-  themeColor: "#0a160a",
+  themeColor: "#0e2110",
   colorScheme: "dark",
 };
 
