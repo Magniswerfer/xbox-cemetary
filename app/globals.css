@@ -150,6 +150,12 @@ a {
 }
 
 /* ── Boot intro ──────────────────────────────────────────── */
+/* Return visit this session: the pre-paint script in <head> has marked
+   <html>, so the boot intro is hidden before it can flash. */
+[data-intro-seen] .boot {
+  display: none !important;
+}
+
 .boot {
   position: fixed;
   inset: 0;

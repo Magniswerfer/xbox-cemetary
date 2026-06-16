@@ -25,6 +25,17 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={`${cinzel.variable} ${chakraPetch.variable}`}>
+      <head>
+        {/* Runs before first paint: if the boot intro was already shown this
+            session, mark <html> so CSS can hide it immediately — no flash on
+            reload. Key must match BOOT_KEY in Cemetery.tsx. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "try{if(sessionStorage.getItem('xbox-cemetery:booted'))document.documentElement.setAttribute('data-intro-seen','')}catch(e){}",
+          }}
+        />
+      </head>
       <body>{children}</body>
     </html>
   );
