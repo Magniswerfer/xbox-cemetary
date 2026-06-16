@@ -938,7 +938,7 @@ a {
   /* Fill the allotted slot, scaling small logos up. The inline max-width /
      max-height set on load (3x natural size) cap how far they can grow. */
   width: 100%;
-  height: min(56px, 12vh);
+  height: min(112px, 24vh);
   object-fit: contain;
   object-position: center;
 }
