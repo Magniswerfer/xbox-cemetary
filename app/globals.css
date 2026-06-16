@@ -114,6 +114,9 @@ a {
 /* ── Shell ───────────────────────────────────────────────── */
 .cemetery {
   position: relative;
+  /* Own stacking context so the scanlines can sit behind all content
+     (at z-index -1) while still painting above the page background. */
+  isolation: isolate;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
@@ -1096,7 +1099,9 @@ a {
   position: fixed;
   inset: 0;
   pointer-events: none;
-  z-index: 95;
+  /* Behind all content — scanlines only show in the empty background,
+     never over images, buttons, or text. */
+  z-index: -1;
   background: repeating-linear-gradient(
     0deg,
     rgba(0, 0, 0, 0) 0px,
