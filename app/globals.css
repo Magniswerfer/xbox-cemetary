@@ -897,6 +897,15 @@ a {
   margin-bottom: 8px;
 }
 
+.eulogy-desc {
+  margin: 0 0 22px;
+  font-family: var(--font-serif);
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--bone);
+  text-wrap: pretty;
+}
+
 .eulogy-cause {
   margin: 0 0 22px;
   font-size: 14.5px;
@@ -1028,35 +1037,21 @@ a {
   letter-spacing: 0.08em;
 }
 
-.eulogy-quote {
-  margin-top: 6px;
-  padding: 22px;
-  border-radius: 14px;
-  border: 1px solid rgba(176, 240, 110, 0.22);
-  background: linear-gradient(160deg, rgba(8, 22, 6, 0.5), rgba(30, 70, 14, 0.3));
-  text-align: center;
+.eulogy-sources {
+  margin-top: 24px;
 }
 
-.eulogy-quote-mark {
-  font-size: 24px;
-  color: rgba(191, 240, 90, 0.5);
-  line-height: 0.6;
-  font-family: var(--font-serif);
-}
-
-.eulogy-quote p {
-  margin: 6px 0 0;
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-size: 17px;
-  line-height: 1.42;
-  color: var(--bone);
-  text-wrap: balance;
+.eulogy-source-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 22px;
 }
 
 .eulogy-source {
   display: inline-block;
-  margin-top: 22px;
   font-size: 12px;
   letter-spacing: 0.14em;
   text-transform: uppercase;

@@ -358,11 +358,9 @@ export default function Cemetery({
             </div>
           )}
 
-          {filtered.length > 0 && (
+          {filtered.length > 0 && query.trim() && (
             <p className="graveyard-quote">
-              {query.trim()
-                ? `${filtered.length} of ${studios.length} laid to rest`
-                : "“Every studio dreams of a sequel. Few are granted one.”"}
+              {filtered.length} of {studios.length} laid to rest
             </p>
           )}
         </section>
@@ -433,8 +431,16 @@ export default function Cemetery({
               <span>✝ {selected.died}</span>
             </div>
 
-            <div className="eulogy-label">Cause of death</div>
-            <p className="eulogy-cause">{selected.cause}</p>
+            {selected.description ? (
+              <p className="eulogy-desc">{selected.description}</p>
+            ) : null}
+
+            {selected.cause ? (
+              <>
+                <div className="eulogy-label">Cause of death</div>
+                <p className="eulogy-cause">{selected.cause}</p>
+              </>
+            ) : null}
 
             {selected.games?.length ? (
               <>
@@ -451,7 +457,7 @@ export default function Cemetery({
 
             {selected.igdbGames?.length ? (
               <>
-                <div className="eulogy-label">Most popular on IGDB</div>
+                <div className="eulogy-label">Notable games</div>
                 <div className="igdb-grid">
                   {selected.igdbGames.map((game) => {
                     const Wrapper = game.url ? "a" : "div";
@@ -492,16 +498,33 @@ export default function Cemetery({
               </div>
             ) : null}
 
-            <div className="eulogy-quote">
-              <div className="eulogy-quote-mark">“</div>
-              <p>{selected.epitaph}</p>
-            </div>
-
-            {selected.sourceUrl ? (
-              <a className="eulogy-source" href={selected.sourceUrl} target="_blank" rel="noreferrer">
-                Read the record ↗
-              </a>
-            ) : null}
+            {(() => {
+              const sources = [
+                selected.sourceUrl && { label: "Read the record", url: selected.sourceUrl },
+                selected.wikipediaUrl && { label: "Wikipedia", url: selected.wikipediaUrl },
+                ...(selected.links ?? []),
+              ].filter(Boolean) as { label: string; url: string }[];
+              if (!sources.length) return null;
+              return (
+                <div className="eulogy-sources">
+                  <div className="eulogy-label">Sources</div>
+                  <ul className="eulogy-source-list">
+                    {sources.map((s) => (
+                      <li key={s.url}>
+                        <a
+                          className="eulogy-source"
+                          href={s.url}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          {s.label} ↗
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              );
+            })()}
           </div>
         </div>
       )}

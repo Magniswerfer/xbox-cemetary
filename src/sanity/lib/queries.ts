@@ -18,13 +18,15 @@ export type Studio = {
   slug?: string;
   born: number;
   died: number;
+  description?: string;
   games?: string[];
   igdbGames?: IgdbGame[];
-  cause: string;
-  epitaph: string;
+  cause?: string;
   revived?: string;
   location?: string;
   sourceUrl?: string;
+  wikipediaUrl?: string;
+  links?: { label: string; url: string }[];
 };
 
 const studiosQuery = groq`*[_type == "studio"] | order(coalesce(orderRank, 9999) asc, died asc, name asc) {
@@ -33,6 +35,7 @@ const studiosQuery = groq`*[_type == "studio"] | order(coalesce(orderRank, 9999)
   "slug": slug.current,
   born,
   died,
+  description,
   games,
   igdbGames[]{
     igdbId,
@@ -45,10 +48,14 @@ const studiosQuery = groq`*[_type == "studio"] | order(coalesce(orderRank, 9999)
     url
   },
   cause,
-  epitaph,
   revived,
   location,
-  sourceUrl
+  sourceUrl,
+  wikipediaUrl,
+  links[]{
+    label,
+    url
+  }
 }`;
 
 export async function getStudios(): Promise<Studio[]> {
@@ -72,7 +79,7 @@ export type SiteSettings = {
 };
 
 export const defaultSettings: SiteSettings = {
-  tagline: "In memoriam — studios laid to rest by the green machine",
+  tagline: "In memoriam",
   footerLeft: "Rest in peace · 2001 — ∞",
   footerRight: "Gone, but still in the credits",
   inspiredByName: "killedbygoogle.com",

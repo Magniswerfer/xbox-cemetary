@@ -1,4 +1,4 @@
-import { defineField, defineType } from "sanity";
+import { defineArrayMember, defineField, defineType } from "sanity";
 import { igdbGamesField } from "./igdbGame";
 
 const currentYear = new Date().getFullYear();
@@ -34,6 +34,13 @@ export const studio = defineType({
       validation: (rule) => rule.required().integer().min(1970).max(currentYear),
     }),
     defineField({
+      name: "description",
+      title: "Description",
+      description: "Optional intro line shown at the top of the eulogy.",
+      type: "text",
+      rows: 2,
+    }),
+    defineField({
       name: "games",
       title: "Notable games (manual)",
       description: "Simple text tags. For rich linked titles, use the IGDB games field below.",
@@ -45,17 +52,10 @@ export const studio = defineType({
     defineField({
       name: "cause",
       title: "Cause of death",
-      description: "How and why the studio was closed.",
+      description: "Optional: how and why the studio was closed.",
       type: "text",
       rows: 3,
-      validation: (rule) => rule.required().max(400),
-    }),
-    defineField({
-      name: "epitaph",
-      title: "Epitaph",
-      description: "A short, bittersweet headstone line.",
-      type: "string",
-      validation: (rule) => rule.required().max(160),
+      validation: (rule) => rule.max(400),
     }),
     defineField({
       name: "revived",
@@ -71,9 +71,48 @@ export const studio = defineType({
     }),
     defineField({
       name: "sourceUrl",
-      title: "Source URL",
+      title: "Primary source URL",
+      description: "Optional: the main record (e.g. the closure announcement).",
       type: "url",
       validation: (rule) => rule.uri({ scheme: ["http", "https"] }),
+    }),
+    defineField({
+      name: "wikipediaUrl",
+      title: "Wikipedia URL",
+      description: "Optional: link to the studio's Wikipedia page.",
+      type: "url",
+      validation: (rule) => rule.uri({ scheme: ["http", "https"] }),
+    }),
+    defineField({
+      name: "links",
+      title: "Other links & sources",
+      description: "Optional: additional articles, obituaries, or references.",
+      type: "array",
+      of: [
+        defineArrayMember({
+          name: "link",
+          title: "Link",
+          type: "object",
+          fields: [
+            defineField({
+              name: "label",
+              title: "Label",
+              type: "string",
+              validation: (rule) => rule.required().max(80),
+            }),
+            defineField({
+              name: "url",
+              title: "URL",
+              type: "url",
+              validation: (rule) =>
+                rule.required().uri({ scheme: ["http", "https"] }),
+            }),
+          ],
+          preview: {
+            select: { title: "label", subtitle: "url" },
+          },
+        }),
+      ],
     }),
     defineField({
       name: "orderRank",
