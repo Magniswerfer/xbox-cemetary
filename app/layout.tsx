@@ -16,10 +16,47 @@ const chakraPetch = Chakra_Petch({
   display: "swap",
 });
 
+const SITE_URL = "https://xboxcemetery.com";
+const DESCRIPTION =
+  "In memoriam — a translucent green memorial for the game studios laid to rest by the green machine. Every Xbox / Microsoft studio closure, with the facts intact.";
+
 export const metadata: Metadata = {
-  title: "Xbox Cemetery",
-  description:
-    "In memoriam — a translucent green memorial for the game studios laid to rest by the green machine.",
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: "Xbox Cemetery — studios laid to rest by the green machine",
+    template: "%s · Xbox Cemetery",
+  },
+  description: DESCRIPTION,
+  applicationName: "Xbox Cemetery",
+  keywords: [
+    "Xbox",
+    "Microsoft",
+    "game studio closures",
+    "studio shutdowns",
+    "video game history",
+    "game preservation",
+    "Xbox Game Studios",
+    "killed by Microsoft",
+  ],
+  alternates: { canonical: "/" },
+  openGraph: {
+    type: "website",
+    url: SITE_URL,
+    siteName: "Xbox Cemetery",
+    title: "Xbox Cemetery — studios laid to rest by the green machine",
+    description: DESCRIPTION,
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Xbox Cemetery",
+    description: DESCRIPTION,
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true },
+  },
 };
 
 // Tints the iOS/Safari browser chrome (top status bar, bottom toolbar) to
@@ -41,6 +78,12 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             __html:
               "try{if(sessionStorage.getItem('xbox-cemetery:booted'))document.documentElement.setAttribute('data-intro-seen','')}catch(e){}",
           }}
+        />
+        {/* Umami analytics — privacy-friendly, cookieless. */}
+        <script
+          defer
+          src="https://cloud.umami.is/script.js"
+          data-website-id="8a852981-d4f9-43d9-bef9-218c2c4e5b21"
         />
       </head>
       <body>{children}</body>
