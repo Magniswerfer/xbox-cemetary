@@ -21,6 +21,12 @@ const CLOSE_MS = 200;
 // Remembers that the boot ritual already played this session.
 const BOOT_KEY = "xbox-cemetery:booted";
 
+// Latin cross (✝) and coffin (⚰), each followed by U+FE0E (variation
+// selector-15) to force monochrome text rendering — otherwise iOS/Safari
+// show them as color emoji.
+const CROSS = "✝︎";
+const COFFIN = "⚰︎";
+
 // Let small art (logo, cover) grow to fill its slot, but cap the upscale at 3x
 // its natural size so a low-res source never turns to mush.
 const capUpscaleTo3x = (e: SyntheticEvent<HTMLImageElement>) => {
@@ -336,7 +342,7 @@ export default function Cemetery({
                     <div className="grave-rip">R · I · P</div>
                     <div className="grave-name">{s.name}</div>
                     <div className="grave-dates">
-                      ★ {s.born} &nbsp;&nbsp; ✝ {s.died}
+                      ★ {s.born} &nbsp;&nbsp; {CROSS} {s.died}
                     </div>
                     <div className="grave-span">{Math.max(0, s.died - s.born)} years</div>
                   </button>
@@ -420,7 +426,7 @@ export default function Cemetery({
           <div className="eulogy-scrim" onClick={closeEulogy} aria-hidden="true" />
           <div className="eulogy-modal" ref={modalRef}>
             <div className="eulogy-head">
-              <div className="eulogy-kicker">⚰ Here lies</div>
+              <div className="eulogy-kicker">{COFFIN} Here lies</div>
               <button
                 type="button"
                 className="eulogy-close"
@@ -458,7 +464,7 @@ export default function Cemetery({
             <div className="eulogy-dates">
               <span>★ {selected.born}</span>
               <span className="eulogy-rule" />
-              <span>✝ {selected.died}</span>
+              <span>{CROSS} {selected.died}</span>
             </div>
 
             {selected.description ? (
