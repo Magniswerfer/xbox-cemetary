@@ -104,16 +104,7 @@ export default function Cemetery({
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
     const matched = q
-      ? studios.filter((s) => {
-          const games = [
-            ...(s.games ?? []),
-            ...((s.igdbGames ?? []).map((g) => g.name)),
-          ];
-          return (
-            s.name.toLowerCase().includes(q) ||
-            games.some((g) => g.toLowerCase().includes(q))
-          );
-        })
+      ? studios.filter((s) => s.name.toLowerCase().includes(q))
       : studios;
 
     const list = [...matched];
@@ -299,9 +290,9 @@ export default function Cemetery({
                 className="search-input"
                 type="search"
                 value={query}
-                placeholder="Search the dead — studio or game…"
+                placeholder="Search the dead — by studio…"
                 onChange={(e) => setQuery(e.target.value)}
-                aria-label="Search studios by name or game"
+                aria-label="Search studios by name"
               />
             </div>
             <div className="sort" role="group" aria-label="Sort graves">
@@ -359,7 +350,7 @@ export default function Cemetery({
                 </p>
                 <p className="empty-body">
                   {hasStudios ? (
-                    <>Nothing matches “{query.trim()}”. Try another studio or game.</>
+                    <>Nothing matches “{query.trim()}”. Try another studio.</>
                   ) : (
                     <>No studios have been interred yet. The dead will appear here.</>
                   )}
