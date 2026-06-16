@@ -9,7 +9,7 @@ import {
   type CSSProperties,
   type KeyboardEvent as ReactKeyboardEvent,
 } from "react";
-import type { Studio } from "@/src/sanity/lib/queries";
+import type { SiteSettings, Studio } from "@/src/sanity/lib/queries";
 
 // Gentle, deterministic per-tombstone tilt so the graveyard reads as hand-placed.
 const TILTS = [-2.5, 1.8, -1.4, 2.6, -2.2, 1.4, -1.8, 2.2];
@@ -41,17 +41,41 @@ function CrossOrb({ className }: { className?: string }) {
   );
 }
 
-export default function Cemetery({ studios, boot = true }: { studios: Studio[]; boot?: boolean }) {
+export default function Cemetery({
+  studios,
+  settings,
+  boot = true,
+}: {
+  studios: Studio[];
+  settings: SiteSettings;
+  boot?: boolean;
+}) {
   const [query, setQuery] = useState("");
   const [sort, setSort] = useState<SortId>("died-desc");
   const [selected, setSelected] = useState<Studio | null>(null);
   const [closing, setClosing] = useState(false);
   const [booted, setBooted] = useState(!boot);
+  const [paying, setPaying] = useState(false);
 
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const bootTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const payingRef = useRef(false);
   const lastFocused = useRef<HTMLElement | null>(null);
   const modalRef = useRef<HTMLDivElement | null>(null);
   const closeBtnRef = useRef<HTMLButtonElement | null>(null);
+
+  // Pay respects: a one-shot bloom on the cross, a reverent hold, then dismiss.
+  // The bloom starts immediately so the F-press registers; reduced motion skips
+  // the movement and exits fast.
+  const payRespects = useCallback(() => {
+    if (payingRef.current) return;
+    payingRef.current = true;
+    setPaying(true);
+    const reduce =
+      typeof window !== "undefined" &&
+      window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+    bootTimer.current = setTimeout(() => setBooted(true), reduce ? 120 : 620);
+  }, []);
 
   // Stable tilt per studio (keyed by id) so sorting doesn't re-scramble the field.
   const tiltById = useMemo(() => {
@@ -94,15 +118,25 @@ export default function Cemetery({ studios, boot = true }: { studios: Studio[]; 
     return list;
   }, [studios, query, sort]);
 
-  // Boot ritual — play once per session, then remember it. Return visitors
-  // (the key is already set) skip straight past it.
+  // Boot ritual — pay respects by pressing F (or tapping, for touch). Plays
+  // once per session; return visitors (key already set) skip straight past it.
   useEffect(() => {
     if (!boot) return;
     const alreadyBooted =
       typeof window !== "undefined" && window.sessionStorage.getItem(BOOT_KEY) !== null;
-    const t = setTimeout(() => setBooted(true), alreadyBooted ? 0 : 4600);
-    return () => clearTimeout(t);
-  }, [boot]);
+    if (alreadyBooted) {
+      const t = setTimeout(() => setBooted(true), 0);
+      return () => clearTimeout(t);
+    }
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "f" || e.key === "F") {
+        e.preventDefault();
+        payRespects();
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [boot, payRespects]);
 
   useEffect(() => {
     if (booted && typeof window !== "undefined") {
@@ -139,6 +173,7 @@ export default function Cemetery({ studios, boot = true }: { studios: Studio[]; 
 
   useEffect(() => () => {
     if (closeTimer.current) clearTimeout(closeTimer.current);
+    if (bootTimer.current) clearTimeout(bootTimer.current);
   }, []);
 
   // Move focus into the dialog when it opens.
@@ -195,17 +230,32 @@ export default function Cemetery({ studios, boot = true }: { studios: Studio[]; 
 
       {/* BOOT INTRO */}
       {showBoot && (
-        <button type="button" className="boot" onClick={() => setBooted(true)} aria-label="Enter the cemetery">
+        <button
+          type="button"
+          className={`boot${paying ? " is-paying" : ""}`}
+          onClick={payRespects}
+          aria-label="Press F to pay respects and enter the cemetery"
+        >
           <div className="boot-orb-wrap">
             <span className="boot-ring" />
             <span className="boot-ring boot-ring-2" />
+            {paying && <span className="boot-flash" />}
             <div className="boot-orb">
               <CrossOrb />
             </div>
           </div>
           <div className="boot-title">XBOX</div>
           <div className="boot-sub">C E M E T E R Y</div>
-          <div className="boot-cta">▷&nbsp;&nbsp;PRESS START / CLICK TO ENTER</div>
+          {paying ? (
+            <div className="boot-cta boot-cta-paid">Respects paid</div>
+          ) : (
+            <>
+              <div className="boot-cta">
+                Press <kbd className="boot-key">F</kbd> to pay respects
+              </div>
+              <div className="boot-hint">— or tap anywhere to enter —</div>
+            </>
+          )}
         </button>
       )}
 
@@ -216,7 +266,7 @@ export default function Cemetery({ studios, boot = true }: { studios: Studio[]; 
         </div>
         <div className="header-titles">
           <h1 className="header-title">XBOX CEMETERY</h1>
-          <p className="header-sub">In memoriam — studios laid to rest by the green machine</p>
+          <p className="header-sub">{settings.tagline}</p>
         </div>
         <div className="header-count">
           <div className="count-num">{studios.length}</div>
@@ -320,8 +370,35 @@ export default function Cemetery({ studios, boot = true }: { studios: Studio[]; 
 
       {/* FOOTER */}
       <footer className="site-footer">
-        <span>Rest in peace · 2001 — ∞</span>
-        <span>Gone, but still in the credits</span>
+        <div className="footer-row">
+          <span>{settings.footerLeft}</span>
+          <span>{settings.footerRight}</span>
+        </div>
+        <div className="footer-meta">
+          <a
+            className="footer-link"
+            href={settings.inspiredByUrl}
+            target="_blank"
+            rel="noreferrer"
+          >
+            Inspired by {settings.inspiredByName}
+          </a>
+          {settings.githubUrl ? (
+            <>
+              <span className="footer-dot" aria-hidden="true">
+                ·
+              </span>
+              <a
+                className="footer-link"
+                href={settings.githubUrl}
+                target="_blank"
+                rel="noreferrer"
+              >
+                GitHub ↗
+              </a>
+            </>
+          ) : null}
+        </div>
       </footer>
 
       {/* EULOGY PANEL */}

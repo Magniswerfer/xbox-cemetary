@@ -95,10 +95,27 @@ a {
   0%, 100% { opacity: 0.45; }
   50% { opacity: 0.85; }
 }
+/* Pay-respects beat — cross blooms from its visible scale (never from 0). */
+@keyframes payBloom {
+  0% { transform: scale(1); filter: drop-shadow(0 0 26px rgba(143, 209, 58, 0.8)); }
+  45% { transform: scale(1.13); filter: drop-shadow(0 0 52px rgba(226, 255, 170, 1)) brightness(1.5); }
+  100% { transform: scale(1.05); filter: drop-shadow(0 0 30px rgba(143, 209, 58, 0.7)); }
+}
+@keyframes payRing {
+  0% { transform: scale(0.5); opacity: 0; }
+  20% { opacity: 0.8; }
+  100% { transform: scale(2.8); opacity: 0; }
+}
+@keyframes payFade {
+  0%, 38% { opacity: 1; }
+  100% { opacity: 0; }
+}
 
 /* ── Shell ───────────────────────────────────────────────── */
 .cemetery {
   position: relative;
+  display: flex;
+  flex-direction: column;
   min-height: 100vh;
   color: var(--moss);
   font-family: var(--font-ui);
@@ -197,11 +214,76 @@ a {
 
 .boot-cta {
   position: absolute;
-  bottom: 46px;
-  font-size: 11px;
-  letter-spacing: 0.3em;
-  color: rgba(214, 247, 160, 0.4);
-  animation: glowPulse 2s ease infinite 2s;
+  bottom: 56px;
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(214, 247, 160, 0.78);
+  animation: glowPulse 2s ease infinite 1.4s;
+}
+
+.boot-key {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.9em;
+  padding: 0.2em 0.5em 0.28em;
+  border: 1px solid rgba(191, 240, 90, 0.6);
+  border-bottom-width: 3px;
+  border-radius: 7px;
+  background: rgba(143, 209, 58, 0.18);
+  color: var(--bone);
+  font-family: var(--font-ui);
+  font-weight: 800;
+  font-size: 1.05em;
+  line-height: 1;
+  letter-spacing: 0;
+  box-shadow: 0 0 18px rgba(143, 209, 58, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+
+.boot-hint {
+  position: absolute;
+  bottom: 32px;
+  font-size: 10px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: rgba(214, 247, 160, 0.32);
+}
+
+/* ── Pay respects ────────────────────────────────────────── */
+.boot.is-paying {
+  pointer-events: none;
+  animation: payFade 620ms var(--ease-out) forwards;
+}
+
+.boot.is-paying .boot-orb {
+  animation: payBloom 560ms var(--ease-out) forwards;
+}
+
+/* Freeze the idle pulsing rings so they don't compete with the flash. */
+.boot.is-paying .boot-ring {
+  animation-play-state: paused;
+}
+
+.boot-flash {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2px solid rgba(226, 255, 170, 0.9);
+  box-shadow: 0 0 30px rgba(143, 209, 58, 0.6);
+  pointer-events: none;
+  animation: payRing 560ms var(--ease-out) forwards;
+}
+
+.boot-cta-paid {
+  letter-spacing: 0.34em;
+  color: var(--lime-bright);
+  text-shadow: 0 0 18px rgba(143, 209, 58, 0.6);
+  animation: bootFade 0.3s ease both;
 }
 
 /* ── Header ──────────────────────────────────────────────── */
@@ -272,6 +354,8 @@ a {
 .cemetery-main {
   position: relative;
   z-index: 5;
+  flex: 1 0 auto;
+  width: 100%;
   max-width: 1240px;
   margin: 0 auto;
   padding: 0 28px 90px;
@@ -605,18 +689,54 @@ a {
 .site-footer {
   position: relative;
   z-index: 5;
+  width: 100%;
   max-width: 1240px;
   margin: 0 auto;
   padding: 18px 28px 46px;
   border-top: 1px solid rgba(143, 209, 58, 0.14);
   display: flex;
+  flex-direction: column;
+  gap: 14px;
+  font-size: 11px;
+  color: rgba(174, 219, 124, 0.42);
+}
+
+.footer-row {
+  display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 10px;
-  font-size: 11px;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: rgba(174, 219, 124, 0.42);
+}
+
+.footer-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  letter-spacing: 0.08em;
+}
+
+.footer-link {
+  color: rgba(174, 219, 124, 0.6);
+  text-decoration: none;
+  transition: color 180ms ease;
+}
+
+.footer-link:hover {
+  color: var(--bone);
+}
+
+.footer-link:focus-visible {
+  outline: 2px solid var(--lime-bright);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.footer-dot {
+  color: rgba(174, 219, 124, 0.3);
 }
 
 /* ── Eulogy panel ────────────────────────────────────────── */

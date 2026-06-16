@@ -61,3 +61,49 @@ export async function getStudios(): Promise<Studio[]> {
     return [];
   }
 }
+
+export type SiteSettings = {
+  tagline: string;
+  footerLeft: string;
+  footerRight: string;
+  inspiredByName: string;
+  inspiredByUrl: string;
+  githubUrl?: string;
+};
+
+export const defaultSettings: SiteSettings = {
+  tagline: "In memoriam — studios laid to rest by the green machine",
+  footerLeft: "Rest in peace · 2001 — ∞",
+  footerRight: "Gone, but still in the credits",
+  inspiredByName: "killedbygoogle.com",
+  inspiredByUrl: "https://killedbygoogle.com",
+};
+
+const settingsQuery = groq`*[_type == "siteSettings"][0]{
+  tagline,
+  footerLeft,
+  footerRight,
+  inspiredByName,
+  inspiredByUrl,
+  githubUrl
+}`;
+
+export async function getSiteSettings(): Promise<SiteSettings> {
+  if (!hasSanityConfig) return defaultSettings;
+
+  try {
+    const data = await client.fetch<Partial<SiteSettings> | null>(
+      settingsQuery,
+      {},
+      { next: { revalidate: 60 } },
+    );
+    // Empty/missing fields fall back to defaults rather than blanking the chrome.
+    const set = Object.fromEntries(
+      Object.entries(data ?? {}).filter(([, v]) => v != null && v !== ""),
+    );
+    return { ...defaultSettings, ...set };
+  } catch (error) {
+    console.warn("Could not reach Sanity for site settings; using defaults.", error);
+    return defaultSettings;
+  }
+}
