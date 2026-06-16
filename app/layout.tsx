@@ -18,7 +18,7 @@ const chakraPetch = Chakra_Petch({
 
 const SITE_URL = "https://xboxcemetery.com";
 const DESCRIPTION =
-  "In memoriam — a translucent green memorial for the game studios laid to rest by the green machine. Every Xbox / Microsoft studio closure, with the facts intact.";
+  "A commemorative website, remembering the studios that made us gamers.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),

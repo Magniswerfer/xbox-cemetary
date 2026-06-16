@@ -68,16 +68,6 @@ export default function Image() {
         >
           XBOX CEMETERY
         </div>
-        <div
-          style={{
-            display: "flex",
-            fontSize: 34,
-            marginTop: 18,
-            color: "#aedb7c",
-          }}
-        >
-          Studios laid to rest by the green machine
-        </div>
       </div>
     ),
     { ...size },
