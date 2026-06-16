@@ -617,8 +617,18 @@ a {
   color: inherit;
   font-family: inherit;
   /* Lit jade slab — bright enough across the whole face that the dark
-     engraved metadata clears WCAG AA, top and bottom. */
-  background: linear-gradient(158deg, rgba(196, 244, 138, 0.82), rgba(176, 226, 112, 0.8));
+     engraved metadata clears WCAG AA, top and bottom. CRT scanlines are
+     layered on top as a background, so they sit on the slab face but
+     stay behind the engraved text. */
+  background:
+    repeating-linear-gradient(
+      0deg,
+      transparent 0,
+      transparent 2px,
+      rgba(0, 28, 0, 0.07) 3px,
+      transparent 4px
+    ),
+    linear-gradient(158deg, rgba(196, 244, 138, 0.82), rgba(176, 226, 112, 0.8));
   border-top: 1px solid rgba(196, 250, 130, 0.5);
   border-left: 1px solid rgba(176, 240, 110, 0.28);
   border-right: 1px solid rgba(20, 40, 10, 0.5);
@@ -796,7 +806,17 @@ a {
   max-height: min(86vh, 760px);
   overflow-y: auto;
   padding: 34px 32px 40px;
-  background: linear-gradient(165deg, rgba(40, 86, 20, 0.92), rgba(10, 26, 8, 0.96));
+  /* CRT scanlines layered over the panel fill — they ride the modal
+     surface but stay behind its content (text, buttons, images). */
+  background:
+    repeating-linear-gradient(
+      0deg,
+      transparent 0,
+      transparent 2px,
+      rgba(0, 0, 0, 0.16) 3px,
+      transparent 4px
+    ),
+    linear-gradient(165deg, rgba(40, 86, 20, 0.92), rgba(10, 26, 8, 0.96));
   border: 1px solid rgba(176, 240, 110, 0.4);
   border-radius: 22px;
   box-shadow:
@@ -929,9 +949,13 @@ a {
 
 .eulogy-desc {
   margin: 0 0 22px;
-  font-family: var(--font-serif);
-  font-size: 16px;
-  line-height: 1.5;
+  /* Sans body voice — Chakra Petch (same family as the eyebrows, here in
+     sentence case rather than uppercase) for clean, readable descriptions. */
+  font-family: var(--font-ui);
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 1.6;
+  letter-spacing: 0.01em;
   color: var(--bone);
   text-wrap: pretty;
 }
@@ -1041,6 +1065,11 @@ a {
   line-height: 1.2;
   color: var(--bone);
   text-wrap: balance;
+  /* Long single-word titles (e.g. "MechCommander") hyphenate instead of
+     overflowing into the neighbouring card; break-word is the fallback. */
+  -webkit-hyphens: auto;
+  hyphens: auto;
+  overflow-wrap: break-word;
 }
 
 .igdb-year {
