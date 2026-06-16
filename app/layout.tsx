@@ -23,7 +23,7 @@ const DESCRIPTION =
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "Xbox Cemetery — studios laid to rest by the green machine",
+    default: "Xbox Cemetery",
     template: "%s · Xbox Cemetery",
   },
   description: DESCRIPTION,
@@ -43,7 +43,7 @@ export const metadata: Metadata = {
     type: "website",
     url: SITE_URL,
     siteName: "Xbox Cemetery",
-    title: "Xbox Cemetery — studios laid to rest by the green machine",
+    title: "Xbox Cemetery",
     description: DESCRIPTION,
     locale: "en_US",
   },
