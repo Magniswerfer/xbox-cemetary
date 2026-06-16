@@ -1,0 +1,137 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-06-16T00:00:00Z",
+  "title": "Design System: Xbox Cemetery",
+  "extensions": {
+    "colorMeta": {
+      "jewel-lime": {
+        "role": "primary",
+        "displayName": "Jewel Lime",
+        "canonical": "#8fd13a",
+        "tonalRamp": ["#0c1f06", "#143010", "#1c4f0c", "#2c6e14", "#4a9322", "#6fb22f", "#8fd13a", "#c4fa82"]
+      },
+      "toxic-lime": {
+        "role": "primary",
+        "displayName": "Toxic Lime",
+        "canonical": "#bff05a",
+        "tonalRamp": ["#1a2607", "#2c4011", "#48661a", "#6a9422", "#8fc62f", "#a9e23a", "#bff05a", "#e6ffb0"]
+      },
+      "void-black": {
+        "role": "neutral",
+        "displayName": "Void Black",
+        "canonical": "#040704",
+        "tonalRamp": ["#040704", "#0a160a", "#10240f", "#1a3a10", "#274d1a", "#3a6b24", "#56913a", "#7eb556"]
+      },
+      "bone": {
+        "role": "neutral",
+        "displayName": "Bone",
+        "canonical": "#eaffc0",
+        "tonalRamp": ["#2c3a1a", "#445520", "#5d7228", "#7c9434", "#9cb84a", "#bcd96e", "#d6f7a0", "#eaffc0"]
+      },
+      "stone-ink": {
+        "role": "neutral",
+        "displayName": "Stone Ink",
+        "canonical": "#0f2607",
+        "tonalRamp": ["#0a1604", "#0f2607", "#173610", "#214d18", "#2f6b22", "#48932f", "#6fb24a", "#9cd96e"]
+      }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display (Cinzel)", "purpose": "Wordmark and boot title — engraved, glowing, letter-spaced caps." },
+      "headline": { "displayName": "Headline (Cinzel)", "purpose": "The eulogy subject name — loudest word on screen." },
+      "title": { "displayName": "Title (Cinzel)", "purpose": "A studio name carved on its headstone." },
+      "body": { "displayName": "Body (Chakra Petch)", "purpose": "Cause-of-death prose; cap measure 65–75ch." },
+      "label": { "displayName": "Label (Chakra Petch)", "purpose": "Uppercase tracked chrome — dates, counts, R·I·P." }
+    },
+    "shadows": [
+      { "name": "stone-slab", "value": "inset 0 2px 0 rgba(230,255,170,.4), inset 0 -34px 50px rgba(0,16,0,.5), 0 18px 30px rgba(0,0,0,.45), 0 0 36px rgba(124,210,58,.12)", "purpose": "A headstone at rest — the four-part molded-resin recipe." },
+      { "name": "stone-lifted", "value": "inset 0 2px 0 rgba(230,255,170,.55), inset 0 -34px 50px rgba(0,16,0,.4), 0 24px 40px rgba(0,0,0,.5), 0 0 50px rgba(143,209,58,.4)", "purpose": "A stone raised toward the cursor — deeper drop, brighter glow." },
+      { "name": "modal-float", "value": "inset 0 1px 0 rgba(230,255,170,.3), 0 40px 120px rgba(0,0,0,.62), 0 0 60px rgba(124,210,58,.14)", "purpose": "The eulogy lifted high above a blurred scrim." }
+    ],
+    "motion": [
+      { "name": "ease-out", "value": "cubic-bezier(0.23, 1, 0.32, 1)", "purpose": "Default strong ease-out for entrances, hover lifts, presses." },
+      { "name": "ease-in-out", "value": "cubic-bezier(0.77, 0, 0.175, 1)", "purpose": "On-screen movement that accelerates and decelerates." },
+      { "name": "modal-in", "value": "420ms ease-out (rise 18px + scale 0.94 + de-blur)", "purpose": "Eulogy entrance." },
+      { "name": "modal-out", "value": "200ms ease-out (sink 8px + scale 0.97)", "purpose": "Eulogy exit — faster than entrance, asymmetric by design." },
+      { "name": "grave-stagger", "value": "520ms ease-out, 45ms per-stone delay, backwards fill", "purpose": "Tombstone field rises in cascade on load." }
+    ],
+    "breakpoints": [
+      { "name": "mobile", "value": "720px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Gravestone",
+      "kind": "custom",
+      "refersTo": "grave-stone",
+      "description": "Signature component — a rounded-top jewel-plastic headstone you click to open the eulogy.",
+      "html": "<button class=\"ds-grave\"><span class=\"ds-grave-rip\">R · I · P</span><span class=\"ds-grave-name\">Lionhead Studios</span><span class=\"ds-grave-dates\">★ 1996 ✝ 2016</span><span class=\"ds-grave-span\">20 years</span></button>",
+      "css": ".ds-grave { display: flex; flex-direction: column; align-items: center; gap: 10px; width: 200px; padding: 26px 16px 20px; cursor: pointer; text-align: center; border: none; border-top: 1px solid rgba(196,250,130,.5); border-radius: 108px 108px 12px 12px; background: linear-gradient(158deg, rgba(158,228,86,.32), rgba(30,74,14,.5)); box-shadow: inset 0 2px 0 rgba(230,255,170,.4), inset 0 -34px 50px rgba(0,16,0,.5), 0 18px 30px rgba(0,0,0,.45), 0 0 36px rgba(124,210,58,.12); backdrop-filter: blur(8px); transition: transform 220ms cubic-bezier(0.23,1,0.32,1), box-shadow 220ms cubic-bezier(0.23,1,0.32,1); } .ds-grave-rip { font: 700 11px/1 'Chakra Petch',sans-serif; letter-spacing: .32em; color: rgba(20,46,8,.55); } .ds-grave-name { font: 700 18.5px/1.16 'Cinzel',serif; color: #0f2607; text-shadow: 0 1px 0 rgba(214,255,150,.55); } .ds-grave-dates { font: 600 12.5px 'Chakra Petch',sans-serif; color: rgba(18,44,8,.72); } .ds-grave-span { padding: 3px 10px; border: 1px solid rgba(20,46,8,.28); border-radius: 999px; background: rgba(15,38,7,.22); font: 700 10.5px 'Chakra Petch',sans-serif; letter-spacing: .18em; text-transform: uppercase; color: rgba(18,44,8,.82); } .ds-grave:hover { transform: translateY(-7px); box-shadow: inset 0 2px 0 rgba(230,255,170,.55), inset 0 -34px 50px rgba(0,16,0,.4), 0 24px 40px rgba(0,0,0,.5), 0 0 50px rgba(143,209,58,.4); } .ds-grave:active { transform: scale(0.97); }"
+    },
+    {
+      "name": "Game Chip",
+      "kind": "chip",
+      "refersTo": "eulogy-chip",
+      "description": "Notable-game tag inside the eulogy — jewel-lime pill with a toxic border.",
+      "html": "<span class=\"ds-chip\">Hi-Fi Rush</span>",
+      "css": ".ds-chip { display: inline-block; padding: 7px 14px; border: 1px solid rgba(176,240,110,.3); border-radius: 999px; background: linear-gradient(160deg, rgba(150,225,80,.22), rgba(36,82,18,.4)); box-shadow: inset 0 1px 0 rgba(230,255,170,.3); font: 400 13px 'Chakra Petch',sans-serif; letter-spacing: .02em; color: #eaffc0; }"
+    },
+    {
+      "name": "Rating Badge",
+      "kind": "chip",
+      "refersTo": "rating-badge",
+      "description": "Toxic-lime IGDB score badge — one of the few elements allowed to glow.",
+      "html": "<span class=\"ds-rating\">★ 88</span>",
+      "css": ".ds-rating { display: inline-block; padding: 2px 7px; border-radius: 999px; background: rgba(191,240,90,.92); box-shadow: 0 2px 6px rgba(0,0,0,.45); font: 700 10.5px 'Chakra Petch',sans-serif; letter-spacing: .04em; color: #0f2607; }"
+    },
+    {
+      "name": "IGDB Cover Card",
+      "kind": "card",
+      "refersTo": "igdb-card",
+      "description": "Cover tile in the eulogy's IGDB grid — art, rating badge, title, year.",
+      "html": "<a class=\"ds-igdb\" href=\"#\"><span class=\"ds-igdb-cover\"><span class=\"ds-igdb-rating\">★ 88</span></span><span class=\"ds-igdb-name\">Hi-Fi Rush</span><span class=\"ds-igdb-year\">2023</span></a>",
+      "css": ".ds-igdb { display: block; width: 120px; text-decoration: none; color: inherit; transition: transform 200ms cubic-bezier(0.23,1,0.32,1); } .ds-igdb-cover { position: relative; display: block; aspect-ratio: 3/4; border: 1px solid rgba(176,240,110,.3); border-radius: 10px; background: linear-gradient(160deg, rgba(150,225,80,.18), rgba(24,60,10,.5)); box-shadow: inset 0 1px 0 rgba(230,255,170,.25), 0 8px 20px rgba(0,0,0,.4); } .ds-igdb-rating { position: absolute; top: 6px; right: 6px; padding: 2px 7px; border-radius: 999px; background: rgba(191,240,90,.92); font: 700 10.5px 'Chakra Petch',sans-serif; color: #0f2607; } .ds-igdb-name { display: block; margin-top: 8px; font: 700 13px/1.2 'Cinzel',serif; color: #eaffc0; } .ds-igdb-year { display: block; margin-top: 2px; font: 600 11px 'Chakra Petch',sans-serif; letter-spacing: .08em; color: rgba(174,219,124,.7); } .ds-igdb:hover { transform: translateY(-3px); } .ds-igdb:hover .ds-igdb-cover { border-color: rgba(191,240,90,.6); box-shadow: inset 0 1px 0 rgba(230,255,170,.35), 0 0 26px rgba(143,209,58,.35); } .ds-igdb:active { transform: scale(0.98); }"
+    },
+    {
+      "name": "Eulogy Close Button",
+      "kind": "button",
+      "refersTo": "eulogy-close",
+      "description": "Small square ghost button in the modal header.",
+      "html": "<button class=\"ds-close\" aria-label=\"Close\">✕</button>",
+      "css": ".ds-close { width: 34px; height: 34px; cursor: pointer; border: 1px solid rgba(176,240,110,.34); border-radius: 9px; background: rgba(150,225,80,.16); color: #dff7a8; font: 16px/1 'Chakra Petch',sans-serif; transition: background 200ms ease, transform 140ms cubic-bezier(0.23,1,0.32,1); } .ds-close:hover { background: rgba(170,245,95,.32); } .ds-close:active { transform: scale(0.92); }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Jewel-Case Reliquary",
+    "overview": "Xbox Cemetery is the translucent green plastic shell of an original Xbox, hollowed out and turned into a reliquary. The whole surface behaves like backlit jewel plastic, and the things it holds are the dead: studios shut down by the green machine, each laid out as a headstone you can pick up and read. The system runs on a single tension: carved stone (Cinzel) against early-digital chrome (Chakra Petch). It rejects the official Xbox site, generic gamer RGB, and the sterile wiki table.",
+    "keyCharacteristics": [
+      "Translucent jewel-green plastic on every surface (layered greens, inset bevels, backdrop blur, glossy highlight).",
+      "Engraved-stone display type (Cinzel) against squared digital chrome (Chakra Petch).",
+      "Era hardware cues: green boot-orb, CRT scanlines + grain + vignette, the X-orb mark.",
+      "Reverent, dry, bittersweet — a wake, never a roast.",
+      "The atmosphere degrades gracefully: motion and effects pull back without breaking layout or meaning."
+    ],
+    "rules": [
+      { "name": "The One Glow Rule", "body": "Toxic Lime (#bff05a) is the only color allowed to glow, on at most one or two elements per view. Scarcity makes the glow read as sacred.", "section": "colors" },
+      { "name": "The Stone-Ink Contract", "body": "Stone Ink (#0f2607) is used only on a lit jewel-lime face, always with a light engraving text-shadow. Never on the void or dark green.", "section": "colors" },
+      { "name": "The Two-Voice Rule", "body": "Cinzel for the remembered (names, wordmark, epitaphs); Chakra Petch for the operational (labels, dates, counts). Never cross them.", "section": "typography" },
+      { "name": "The Carved-Caps Rule", "body": "Display and label type is uppercase with positive tracking. Lowercase Cinzel headings are prohibited.", "section": "typography" },
+      { "name": "The Four-Part Slab Rule", "body": "Every raised surface carries top highlight + inner bottom shadow + drop shadow + ambient glow. Drop one and the plastic looks painted-on.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do mold every raised surface as translucent jewel plastic — the four-part slab shadow plus backdrop blur. The glass is the brand.",
+      "Do keep the Two-Voice split absolute: Cinzel for the remembered, Chakra Petch for the operational.",
+      "Do reserve Toxic Lime glow for at most one or two elements per view.",
+      "Do pair Stone Ink only with a lit jewel-lime face and a light engraving text-shadow.",
+      "Do let the atmosphere degrade gracefully — every effect needs a prefers-reduced-motion fallback.",
+      "Do keep the humor dry and carved-in — bittersweet epitaphs, never punchlines."
+    ],
+    "donts": [
+      "Don't make it look like the official Xbox/Microsoft site — no corporate gloss, no marketing cheer.",
+      "Don't drift into generic gamer RGB — no neon rainbow, no angular esports tropes.",
+      "Don't let it become a sterile wiki or data table — the mood carries equal weight to the facts.",
+      "Don't go goofy, meme-y, or clickbait — it's a wake, not a roast.",
+      "Don't put Stone Ink on the void or dark green, and don't set Cinzel headings lowercase.",
+      "Don't spread the Toxic Lime glow across many elements — scarcity is what makes it sacred."
+    ]
+  }
+}
