@@ -8,6 +8,7 @@ import {
   useState,
   type CSSProperties,
   type KeyboardEvent as ReactKeyboardEvent,
+  type SyntheticEvent,
 } from "react";
 import type { SiteSettings, Studio } from "@/src/sanity/lib/queries";
 
@@ -19,6 +20,14 @@ const CLOSE_MS = 200;
 
 // Remembers that the boot ritual already played this session.
 const BOOT_KEY = "xbox-cemetery:booted";
+
+// Let small art (logo, cover) grow to fill its slot, but cap the upscale at 3x
+// its natural size so a low-res source never turns to mush.
+const capUpscaleTo3x = (e: SyntheticEvent<HTMLImageElement>) => {
+  const img = e.currentTarget;
+  img.style.maxWidth = `${img.naturalWidth * 3}px`;
+  img.style.maxHeight = `${img.naturalHeight * 3}px`;
+};
 
 type SortId = "died-desc" | "died-asc" | "name" | "lifespan";
 
@@ -429,6 +438,7 @@ export default function Cemetery({
                 <img
                   src={selected.coverImageUrl}
                   alt={selected.coverImageAlt ?? `${selected.name} cover art`}
+                  onLoad={capUpscaleTo3x}
                 />
               </div>
             ) : null}
@@ -439,6 +449,7 @@ export default function Cemetery({
                 className="eulogy-logo"
                 src={selected.logoUrl}
                 alt={selected.logoAlt ?? `${selected.name} logo`}
+                onLoad={capUpscaleTo3x}
               />
             ) : null}
 
