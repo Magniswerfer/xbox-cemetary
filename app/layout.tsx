@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Cinzel, Chakra_Petch } from "next/font/google";
 import "./globals.css";
 
@@ -20,6 +20,13 @@ export const metadata: Metadata = {
   title: "Xbox Cemetery",
   description:
     "In memoriam — a translucent green memorial for the game studios laid to rest by the green machine.",
+};
+
+// Tints the iOS/Safari browser chrome (top status bar, bottom toolbar) to
+// match the memorial's dark green rather than a default light bar.
+export const viewport: Viewport = {
+  themeColor: "#0a160a",
+  colorScheme: "dark",
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

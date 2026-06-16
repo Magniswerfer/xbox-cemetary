@@ -25,6 +25,24 @@ body {
   overflow-x: hidden;
 }
 
+/* The root background is what iOS/Safari paints into the overscroll (rubber-
+   band) area above and below the page. A vertical dark→green gradient matches
+   the page's top and bottom edges, with scanlines layered on for the same CRT
+   texture, so those edges look intentional rather than a flat black band. */
+html {
+  color-scheme: dark;
+  background-color: var(--bg);
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      transparent 0,
+      transparent 2px,
+      rgba(0, 0, 0, 0.22) 3px,
+      transparent 4px
+    ),
+    linear-gradient(180deg, #040704 0%, #0a160a 55%, #1a3a10 100%);
+}
+
 body {
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
