@@ -18,6 +18,10 @@ export type Studio = {
   slug?: string;
   born: number;
   died: number;
+  logoUrl?: string;
+  logoAlt?: string;
+  coverImageUrl?: string;
+  coverImageAlt?: string;
   description?: string;
   games?: string[];
   igdbGames?: IgdbGame[];
@@ -35,6 +39,10 @@ const studiosQuery = groq`*[_type == "studio"] | order(coalesce(orderRank, 9999)
   "slug": slug.current,
   born,
   died,
+  "logoUrl": logo.asset->url,
+  "logoAlt": logo.alt,
+  "coverImageUrl": coverImage.asset->url,
+  "coverImageAlt": coverImage.alt,
   description,
   games,
   igdbGames[]{

@@ -423,6 +423,25 @@ export default function Cemetery({
               </button>
             </div>
 
+            {selected.coverImageUrl ? (
+              <div className="eulogy-cover">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={selected.coverImageUrl}
+                  alt={selected.coverImageAlt ?? `${selected.name} cover art`}
+                />
+              </div>
+            ) : null}
+
+            {selected.logoUrl ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                className="eulogy-logo"
+                src={selected.logoUrl}
+                alt={selected.logoAlt ?? `${selected.name} logo`}
+              />
+            ) : null}
+
             <h2 className="eulogy-name">{selected.name}</h2>
 
             <div className="eulogy-dates">
@@ -494,7 +513,7 @@ export default function Cemetery({
 
             {selected.revived ? (
               <div className="eulogy-exhumed">
-                <strong>⟲ EXHUMED.</strong> {selected.revived}
+                <strong>EXHUMED.</strong> {selected.revived}
               </div>
             ) : null}
 

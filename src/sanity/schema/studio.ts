@@ -34,6 +34,34 @@ export const studio = defineType({
       validation: (rule) => rule.required().integer().min(1970).max(currentYear),
     }),
     defineField({
+      name: "logo",
+      title: "Studio logo",
+      description: "Optional: shown above the studio name in the eulogy.",
+      type: "image",
+      options: { hotspot: true },
+      fields: [
+        defineField({
+          name: "alt",
+          title: "Alt text",
+          type: "string",
+        }),
+      ],
+    }),
+    defineField({
+      name: "coverImage",
+      title: "Cover art / image",
+      description: "Optional: a banner image shown at the top of the eulogy.",
+      type: "image",
+      options: { hotspot: true },
+      fields: [
+        defineField({
+          name: "alt",
+          title: "Alt text",
+          type: "string",
+        }),
+      ],
+    }),
+    defineField({
       name: "description",
       title: "Description",
       description: "Optional intro line shown at the top of the eulogy.",
